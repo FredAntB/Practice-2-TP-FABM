@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Practice_2_cert_1</RootNamespace>
+    <RootNamespace>UPB.Practice_2_cert_1</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
