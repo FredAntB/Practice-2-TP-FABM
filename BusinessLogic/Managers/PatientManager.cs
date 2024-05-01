@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UPB.BusinessLogic.Managers.Exceptions;
 using UPB.BusinessLogic.Models;
 
 namespace UPB.BusinessLogic.Managers
@@ -41,7 +42,7 @@ namespace UPB.BusinessLogic.Managers
 
             if(patientToUpdate == null)
             {
-                throw new NotImplementedException();
+                throw new PatientNotFoundException();
             }
 
             patientToUpdate.Name = UpdatedPatient.Name;
@@ -59,7 +60,7 @@ namespace UPB.BusinessLogic.Managers
 
             if (patientToDelete == null)
             {
-                throw new NotImplementedException();
+                throw new PatientNotFoundException();
             }
 
             _patients.Remove(patientToDelete);
@@ -80,7 +81,7 @@ namespace UPB.BusinessLogic.Managers
 
             if (foundPatientByCI == null)
             {
-                throw new NotImplementedException();
+                throw new PatientNotFoundException();
             }
 
             return foundPatientByCI;
