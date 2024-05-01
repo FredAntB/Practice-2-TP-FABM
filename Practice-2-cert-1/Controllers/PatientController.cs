@@ -1,11 +1,53 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using UPB.BusinessLogic.Models;
+using UPB.BusinessLogic.Managers;
 
 namespace UPB.Practice_2_cert_1.Controllers
 {
-    public class PatientController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PatientController : ControllerBase
     {
-        // GET: PatientController
+        private readonly PatientManager _patientManager;
+
+        public PatientController()
+        {
+            _patientManager = new PatientManager();
+        }
+
+        [HttpGet]
+        public List<Patient> Get()
+        {
+            return _patientManager.GetPatients();
+        }
+
+        [HttpGet]
+        [Route("{ci}")]
+        public Patient Get(int ci)
+        {
+            return _patientManager.GetPatientsBiCI(ci);
+        }
+
+        [HttpPost]
+        public void Post([FromBody] Patient value)
+        {
+            _patientManager.CreatePatient(value.Name, value.LastName, value.CI);
+        }
+
+        [HttpPut("{ci}")]
+        public void Put(int ci, [FromBody] Patient value)
+        {
+            _patientManager.UpdatePatient(ci, value);
+        }
+
+        [HttpDelete("{ci}")]
+        public void Delete(int ci)
+        {
+            _patientManager.Delete(ci);
+        }
+
+        /*// GET: PatientController
         public ActionResult Index()
         {
             return View();
@@ -78,6 +120,6 @@ namespace UPB.Practice_2_cert_1.Controllers
             {
                 return View();
             }
-        }
+        }*/
     }
 }
