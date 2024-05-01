@@ -18,17 +18,19 @@ namespace UPB.BusinessLogic.Managers
             readPatientsToList();
         }
 
-        public Patient CreatePatient(string name, string lastname, int CI)
+        public Patient CreatePatient(Patient patient)
         {
             Patient createdPatient = new Patient()
             {
-                Name = name,
-                LastName = lastname,
-                CI = CI,
+                Name = patient.Name,
+                LastName = patient.LastName,
+                CI = patient.CI,
                 BloodType = GetRandomBloodType()
             };
 
             _patients.Add(createdPatient);
+
+            writeListToFile();
 
             return createdPatient;
         }
@@ -41,7 +43,14 @@ namespace UPB.BusinessLogic.Managers
             {
                 throw new NotImplementedException();
             }
-            throw new NotImplementedException();
+
+            patientToUpdate.Name = UpdatedPatient.Name;
+            patientToUpdate.LastName = UpdatedPatient.LastName;
+            patientToUpdate.BloodType = UpdatedPatient.BloodType;
+
+            writeListToFile();
+
+            return patientToUpdate;
         }
 
         public List<Patient> Delete(int ci)
@@ -54,6 +63,8 @@ namespace UPB.BusinessLogic.Managers
             }
 
             _patients.Remove(patientToDelete);
+
+            writeListToFile();
 
             return _patients;
         }

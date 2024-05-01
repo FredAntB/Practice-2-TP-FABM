@@ -11,9 +11,9 @@ namespace UPB.Practice_2_cert_1.Controllers
     {
         private readonly PatientManager _patientManager;
 
-        public PatientController()
+        public PatientController(PatientManager patientManager)
         {
-            _patientManager = new PatientManager();
+            _patientManager = patientManager;
         }
 
         [HttpGet]
@@ -32,7 +32,7 @@ namespace UPB.Practice_2_cert_1.Controllers
         [HttpPost]
         public void Post([FromBody] Patient value)
         {
-            _patientManager.CreatePatient(value.Name, value.LastName, value.CI);
+            _patientManager.CreatePatient(value);
         }
 
         [HttpPut("{ci}")]
