@@ -8,12 +8,13 @@ namespace UPB.BusinessLogic.Managers.Exceptions
 {
     public class PatientNotFoundException : Exception
     {
-        public PatientNotFoundException() { }
-        public PatientNotFoundException(string message) : base(message) { }
+        private const string BaseMessage = "The Patient you're looking for was not found.";
+        public PatientNotFoundException() : base(BaseMessage) { }
+        public PatientNotFoundException(string method) : base("In the " + method + " method. " + BaseMessage) { }
 
         public string GetErrorType()
         {
-            return "PatientNotFound";
+            return BaseMessage;
         }
     }
 }

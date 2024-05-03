@@ -26,7 +26,7 @@ namespace UPB.Practice_2_cert_1.Controllers
         [Route("{ci}")]
         public Patient Get(int ci)
         {
-            return _patientManager.GetPatientsBiCI(ci);
+            return _patientManager.GetPatientsByCI(ci);
         }
 
         [HttpPost]

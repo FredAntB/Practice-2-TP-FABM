@@ -19,7 +19,7 @@ namespace UPB.BusinessLogic.Managers
             _patients = new List<Patient>();
             _configuration = configuration;
 
-            readPatientsToList();
+            ReadPatientsToList();
         }
 
         public Patient CreatePatient(Patient patient)
@@ -34,7 +34,7 @@ namespace UPB.BusinessLogic.Managers
 
             _patients.Add(createdPatient);
 
-            writeListToFile();
+            WriteListToFile();
 
             return createdPatient;
         }
@@ -45,14 +45,14 @@ namespace UPB.BusinessLogic.Managers
 
             if(patientToUpdate == null)
             {
-                throw new PatientNotFoundException();
+                throw new PatientNotFoundException("UpdatePatient");
             }
 
             patientToUpdate.Name = UpdatedPatient.Name;
             patientToUpdate.LastName = UpdatedPatient.LastName;
             // patientToUpdate.BloodType = UpdatedPatient.BloodType;
 
-            writeListToFile();
+            WriteListToFile();
 
             return patientToUpdate;
         }
@@ -63,12 +63,12 @@ namespace UPB.BusinessLogic.Managers
 
             if (patientToDelete == null)
             {
-                throw new PatientNotFoundException();
+                throw new PatientNotFoundException("Delete");
             }
 
             _patients.Remove(patientToDelete);
 
-            writeListToFile();
+            WriteListToFile();
 
             return _patients;
         }
@@ -78,19 +78,19 @@ namespace UPB.BusinessLogic.Managers
             return _patients;
         }
 
-        public Patient GetPatientsBiCI(int ci)  
+        public Patient GetPatientsByCI(int ci)  
         {
             Patient? foundPatientByCI = _patients.Find(x => x.CI == ci);
 
             if (foundPatientByCI == null)
             {
-                throw new PatientNotFoundException();
+                throw new PatientNotFoundException("GetPatientsByCI");
             }
 
             return foundPatientByCI;
         }
 
-        public string GetRandomBloodType()
+        private static string GetRandomBloodType()
         {
             Random rand = new Random();
             int random_value = rand.Next(0, 81);
@@ -133,9 +133,14 @@ namespace UPB.BusinessLogic.Managers
             return "O-";
         }
 
-        private void readPatientsToList()
+        private void ReadPatientsToList()
         {
             string? patientsFile = _configuration.GetSection("FilePaths").GetSection("PatientFile").Value;
+
+            if(patientsFile == null)
+            {
+                throw new JSONValueNotFoundException(["FilePaths", "PatientFile"]);
+            }
 
             StreamReader reader = new StreamReader(patientsFile);
 
@@ -158,9 +163,14 @@ namespace UPB.BusinessLogic.Managers
             reader.Close();
         }
 
-        private void writeListToFile()
+        private void WriteListToFile()
         {
             string? patientsFile = _configuration.GetSection("FilePaths").GetSection("PatientFile").Value;
+
+            if (patientsFile == null)
+            {
+                throw new JSONValueNotFoundException(["FilePaths", "PatientFile"]);
+            }
 
             StreamWriter writer = new StreamWriter(patientsFile);
             foreach(var patient in _patients)
