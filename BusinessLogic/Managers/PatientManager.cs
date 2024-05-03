@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,10 +12,12 @@ namespace UPB.BusinessLogic.Managers
     public class PatientManager
     {
         private List<Patient> _patients;
+        private IConfiguration _configuration;
 
-        public PatientManager()
+        public PatientManager(IConfiguration configuration)
         {
             _patients = new List<Patient>();
+            _configuration = configuration;
 
             readPatientsToList();
         }
@@ -47,7 +50,7 @@ namespace UPB.BusinessLogic.Managers
 
             patientToUpdate.Name = UpdatedPatient.Name;
             patientToUpdate.LastName = UpdatedPatient.LastName;
-            patientToUpdate.BloodType = UpdatedPatient.BloodType;
+            // patientToUpdate.BloodType = UpdatedPatient.BloodType;
 
             writeListToFile();
 
@@ -132,12 +135,14 @@ namespace UPB.BusinessLogic.Managers
 
         private void readPatientsToList()
         {
-            StreamReader reader = new StreamReader("D:\\Cert I\\SP\\Practice2\\Patients.txt");
+            string? patientsFile = _configuration.GetSection("FilePaths").GetSection("PatientFile").Value;
+
+            StreamReader reader = new StreamReader(patientsFile);
 
             _patients.Clear();
 
             while(!reader.EndOfStream)
-            {
+            { 
                 string line = reader.ReadLine();
                 string[] patientInfo = line.Split(",");
 
@@ -155,10 +160,12 @@ namespace UPB.BusinessLogic.Managers
 
         private void writeListToFile()
         {
-            StreamWriter writer = new StreamWriter("D:\\Cert I\\SP\\Practice2\\Patients.txt");
+            string? patientsFile = _configuration.GetSection("FilePaths").GetSection("PatientFile").Value;
+
+            StreamWriter writer = new StreamWriter(patientsFile);
             foreach(var patient in _patients)
             {
-                string[] patientInfo = { patient.Name, patient.LastName, $"{patient.CI}", patient.BloodType};
+                string[] patientInfo = { patient.Name, patient.LastName, $"{patient.CI}", patient.BloodType };
                 writer.WriteLine(string.Join(",", patientInfo));
             }
             writer.Close();
