@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -144,6 +145,8 @@ namespace UPB.BusinessLogic.Managers
 
             StreamReader reader = new StreamReader(patientsFile);
 
+            Log.Information("Loading Patients from file.");
+
             _patients.Clear();
 
             while(!reader.EndOfStream)
@@ -173,6 +176,9 @@ namespace UPB.BusinessLogic.Managers
             }
 
             StreamWriter writer = new StreamWriter(patientsFile);
+
+            Log.Information("Saving patients to the file.");
+
             foreach(var patient in _patients)
             {
                 string[] patientInfo = { patient.Name, patient.LastName, $"{patient.CI}", patient.BloodType };

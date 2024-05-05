@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Serilog;
+using System.Net;
+using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 
 namespace UPB.Practice_2_cert_1.Middleware
@@ -14,10 +17,22 @@ namespace UPB.Practice_2_cert_1.Middleware
             _next = next;
         }
 
-        public Task Invoke(HttpContext httpContext)
+        public async Task Invoke(HttpContext httpContext)
         {
+            try
+            {
+                await _next(httpContext);
+            }
+            catch (Exception ex)
+            {
+                await processException(ex, httpContext);
+            }
+        }
 
-            return _next(httpContext);
+        private Task processException(Exception ex, HttpContext httpContext)
+        {
+            Log.Error(ex.Message);
+            return httpContext.Response.WriteAsJsonAsync(new { Code = (int)HttpStatusCode.InternalServerError, Error = ex.Message});
         }
     }
 

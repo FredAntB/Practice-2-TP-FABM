@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UPB.BusinessLogic.Managers.Exceptions
 {
-    internal class JSONValueNotFoundException : Exception
+    public class JSONValueNotFoundException : Exception
     {
         private const string BaseMessage = "The JSON value/section you're looking for doesn't exist or is not properly written.";
         public JSONValueNotFoundException() : base(BaseMessage) { }

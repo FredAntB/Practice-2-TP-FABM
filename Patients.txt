@@ -1,1 +1,3 @@
 Frederick,Balderrama,12400410,O+
+Lucas,Nogales,130829,B-
+Julia,Smith,1039282,O+
