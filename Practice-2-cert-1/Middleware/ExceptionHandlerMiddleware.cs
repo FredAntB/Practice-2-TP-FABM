@@ -4,6 +4,7 @@ using Serilog;
 using System.Net;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
+using UPB.BusinessLogic.Managers.Exceptions;
 
 namespace UPB.Practice_2_cert_1.Middleware
 {
@@ -23,6 +24,10 @@ namespace UPB.Practice_2_cert_1.Middleware
             {
                 await _next(httpContext);
             }
+            catch(PatientAlreadyExistsException ex)
+            {
+                Log.Warning(ex.Message);
+            }
             catch (Exception ex)
             {
                 await processException(ex, httpContext);
@@ -32,7 +37,7 @@ namespace UPB.Practice_2_cert_1.Middleware
         private Task processException(Exception ex, HttpContext httpContext)
         {
             Log.Error(ex.Message);
-            return httpContext.Response.WriteAsJsonAsync(new { Code = (int)HttpStatusCode.InternalServerError, Error = ex.Message});
+            return httpContext.Response.WriteAsJsonAsync(new { Code = (int)HttpStatusCode.InternalServerError, Error = ex.Message });
         }
     }
 

@@ -25,6 +25,11 @@ namespace UPB.BusinessLogic.Managers
 
         public Patient CreatePatient(Patient patient)
         {
+            if(CheckIfPatientExists(patient))
+            {
+                throw new PatientAlreadyExistsException();
+            }
+
             Patient createdPatient = new Patient()
             {
                 Name = patient.Name,
@@ -185,6 +190,20 @@ namespace UPB.BusinessLogic.Managers
                 writer.WriteLine(string.Join(",", patientInfo));
             }
             writer.Close();
+        }
+
+        private bool CheckIfPatientExists(Patient patient)
+        {
+            Patient? foundPatient = _patients.Find(x => x.CI == patient.CI);
+
+            if(foundPatient == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
