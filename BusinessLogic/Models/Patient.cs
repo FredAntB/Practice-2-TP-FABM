@@ -15,14 +15,17 @@ namespace UPB.BusinessLogic.Models
 
         public string BloodType {  get; set; }
 
+        public string Code { get; set; }
+
         public Patient() { }
 
-        public Patient(string Name, string LastName, int CI, string BloodType)
+        public Patient(string Name, string LastName, int CI, string BloodType, string code)
         {
             this.Name = Name;
             this.LastName = LastName;
             this.CI = CI;
             this.BloodType = BloodType;
+            Code = code;
         }
     }
 }
