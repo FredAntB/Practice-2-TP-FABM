@@ -246,6 +246,9 @@ namespace UPB.BusinessLogic.Managers
 
             codeValue = codeValuePair.Split(":")[1];
 
+            //Removing quotes("") from the string
+            codeValue = codeValue.Split("\"")[1];
+
             return codeValue;
         }
 
