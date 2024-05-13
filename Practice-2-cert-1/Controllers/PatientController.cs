@@ -30,96 +30,21 @@ namespace UPB.Practice_2_cert_1.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Patient value)
+        public async void Post([FromBody] Patient value)
         {
-            _patientManager.CreatePatient(value);
+            await _patientManager.CreatePatient(value);
         }
 
         [HttpPut("{ci}")]
-        public void Put(int ci, [FromBody] Patient value)
+        public async void Put(int ci, [FromBody] Patient value)
         {
-            _patientManager.UpdatePatient(ci, value);
+            await _patientManager.UpdatePatient(ci, value);
         }
 
         [HttpDelete("{ci}")]
-        public void Delete(int ci)
+        public async void Delete(int ci)
         {
-            _patientManager.Delete(ci);
+            await _patientManager.Delete(ci);
         }
-
-        /*// GET: PatientController
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: PatientController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: PatientController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: PatientController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: PatientController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: PatientController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: PatientController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: PatientController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
     }
 }
